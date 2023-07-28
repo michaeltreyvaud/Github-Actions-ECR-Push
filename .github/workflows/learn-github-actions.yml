@@ -7,4 +7,4 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "My secret value is $SOME_SECRET"
+      - run: echo "My secret value is ${{ env.SOME_SECRET }}"
