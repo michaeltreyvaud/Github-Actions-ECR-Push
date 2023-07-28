@@ -36,15 +36,3 @@ jobs:
         run: |
           docker build -t $REGISTRY:$IMAGE_TAG .
           docker push $REGISTRY:$IMAGE_TAG
-
-
-# - name: AWS ECR Push Actions
-#   run-name: ${{ github.actor }} pushing ECR Image
-#   on: [push]
-#   env:
-#     SOME_SECRET: ${{ secrets.MY_TEST_SECRET }}
-#   jobs:
-#     Explore-GitHub-Actions:
-#       runs-on: ubuntu-latest
-#       steps:
-#         - run: echo "My secret value is ${{ env.SOME_SECRET }}"
