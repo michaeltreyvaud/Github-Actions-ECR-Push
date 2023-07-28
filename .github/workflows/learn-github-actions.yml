@@ -2,12 +2,14 @@ name: AWS ECR Push
 run-name: ${{ github.actor }} pushing ECR Image
 on: [push]
 env:
-  AWS_ECR_ROLE: ${{ secrets.AWS_ECR_ROLE }}
-  AWS_ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
+  AWS_ECR_ROLE: ${{ env.AWS_ECR_ROLE_ENV }}
+  AWS_ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY_ENV }}
 jobs:
-  Explore-GitHub-Actions: # TODO - Chane name
+  Explore-GitHub-Actions: # TODO - Change name
     runs-on: ubuntu-latest
     steps:
+      - name: Print Envs  # TODO - remove
+        run: echo "My envars are ${{ env.AWS_ECR_ROLE }} ${{ env.AWS_ECR_REGISTRY }}"
       - name: Checkout repo
         uses: actions/checkout@v3
 
