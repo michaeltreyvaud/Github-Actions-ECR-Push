@@ -1,8 +1,10 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: AWS ECR Push Actions
+run-name: ${{ github.actor }} pushing ECR Image
 on: [push]
+env:
+  SOME_SECRET: ${{ secrets.MY_TEST_SECRET }}
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo HELLO envar = ${{ env.HELLO }}
+      - run: echo "My secret value is $SOME_SECRET"
