@@ -4,8 +4,9 @@ on: [push]
 env:
   AWS_ECR_ROLE: ${{ vars.AWS_ECR_ROLE_ENV }}
   AWS_ECR_REGISTRY: ${{ vars.AWS_ECR_REGISTRY_ENV }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
 jobs:
-  Explore-GitHub-Actions: # TODO - Change name
+  Push-Docker-Image-To-ECR: # TODO - Change name
     runs-on: ubuntu-latest
     steps:
       - name: Print Envs  # TODO - remove
@@ -17,7 +18,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ env.AWS_ECR_ROLE }}"
-          aws-region: eu-west-1 # TODO - envar?
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
