@@ -5,6 +5,9 @@ env:
   AWS_ECR_ROLE: ${{ vars.AWS_ECR_ROLE_ENV }}
   AWS_ECR_REGISTRY: ${{ vars.AWS_ECR_REGISTRY_ENV }}
   AWS_REGION: ${{ vars.AWS_REGION }}
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
 jobs:
   Push-Docker-Image-To-ECR: # TODO - Change name
     runs-on: ubuntu-latest
