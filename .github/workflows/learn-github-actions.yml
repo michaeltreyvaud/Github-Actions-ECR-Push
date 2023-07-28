@@ -2,8 +2,8 @@ name: AWS ECR Push
 run-name: ${{ github.actor }} pushing ECR Image
 on: [push]
 env:
-  AWS_ECR_ROLE: ${{ env.AWS_ECR_ROLE_ENV }}
-  AWS_ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY_ENV }}
+  AWS_ECR_ROLE: ${{ vars.AWS_ECR_ROLE_ENV }}
+  AWS_ECR_REGISTRY: ${{ vars.AWS_ECR_REGISTRY_ENV }}
 jobs:
   Explore-GitHub-Actions: # TODO - Change name
     runs-on: ubuntu-latest
