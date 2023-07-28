@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} pushing ECR Image
 on: [push]
 env:
   AWS_ECR_ROLE: ${{ secrets.AWS_ECR_ROLE }}
-  AWS_ECR_REGISTRY: ${{ secret.AWS_ECR_REGISTRY }}
+  AWS_ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
 jobs:
   Explore-GitHub-Actions: # TODO - Chane name
     runs-on: ubuntu-latest
