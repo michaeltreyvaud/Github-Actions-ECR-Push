@@ -1,23 +1,33 @@
-- name: Checkout repo
-  uses: actions/checkout@v3
-
-- name: Configure AWS credentials
-  uses: aws-actions/configure-aws-credentials@v2
-  with:
-    role-to-assume: ${{ secrets.AWS_ECR_ROLE }}"
-    aws-region: eu-west-1 # TODO - envar?
-
-- name: Login to Amazon ECR
-  id: login-ecr
-  uses: aws-actions/amazon-ecr-login@v1
-
-- name: Build, tag, and push docker image to Amazon ECR
+- name: AWS ECR Push
+  run-name: ${{ github.actor }} pushing ECR Image
+  on: [push]
   env:
-    REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
-    IMAGE_TAG: ${{ github.sha }}
-  run: |
-    docker build -t $REGISTRY:$IMAGE_TAG .
-    docker push $REGISTRY:$IMAGE_TAG
+    AWS_ECR_ROLE: ${{ secrets.AWS_ECR_ROLE }}
+    AWS_ECR_REGISTRY: ${{ secret.AWS_ECR_REGISTRY }}
+  jobs:
+    Explore-GitHub-Actions:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repo
+          uses: actions/checkout@v3
+
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            role-to-assume: ${{ env.AWS_ECR_ROLE }}"
+            aws-region: eu-west-1 # TODO - envar?
+
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v1
+
+        - name: Build, tag, and push docker image to Amazon ECR
+          env:
+            REGISTRY: ${{ env.AWS_ECR_REGISTRY }}
+            IMAGE_TAG: ${{ github.sha }}
+          run: |
+            docker build -t $REGISTRY:$IMAGE_TAG .
+            docker push $REGISTRY:$IMAGE_TAG
 
 
 # - name: AWS ECR Push Actions
