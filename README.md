@@ -99,7 +99,7 @@ Once your role is created, navigate back to IAM within the AWS console and find 
                     "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
                 },
                 "StringLike": {
-                    "token.actions.githubusercontent.com:sub": "repo:GITHUB_ACCOUNT_NAME/GITHUB_ACCOUNT_REPO:GITHUB_REPO_BRANCH"
+                    "token.actions.githubusercontent.com:sub": "repo:GITHUB_ACCOUNT_NAME/GITHUB_ACCOUNT_REPO:ref:refs/heads/GITHUB_REPO_BRANCH"
                 }
             }
         }
