@@ -56,8 +56,7 @@ Click [here](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-west-
                 "ecr:GetAuthorizationToken"
             ],
             "Resource": [
-                "arn:aws:ecr:eu-west-1:567299539055:repository/*",
-                "arn:aws:ecr:eu-west-1:567299539055:repository/YOUR_ECR_REPOSITORY_FROM_ABOVE"
+                "arn:aws:ecr:eu-west-1:YOUR_AWS_ACCOUNT_NUMBER:*/*"
             ]
         }
     ]
