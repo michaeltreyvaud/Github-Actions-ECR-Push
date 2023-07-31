@@ -31,7 +31,7 @@ Click [here](https://eu-west-1.console.aws.amazon.com/ecr/repositories?region=eu
 Click [here](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-west-1#/policies) to create your policy that will be attached to your Provider role.
 
 - Select create Policy
-- Use the following JSON definition and edit accordinly
+- Use the following JSON definition and edit accordingly
 
 ```json
 {
@@ -64,8 +64,49 @@ Click [here](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-west-
 }
 ```
 
+## Create Role
 
-## Useful
+- Navigate to your created OIDC Provider
+- Select Assign Role
+- Select Create New Role
+- Choose web identity
+- Select your identity provider from drop down
+- Add sts.amazonaws.com as Audience select next
+- Attach previously created policy to the role
+- Finish process
+
+## Update Role Trusted entities
+
+Once your role is created, navigate back to IAM within the AWS console and find the role you created in the previous step
+
+- Select Trust relationships
+- Select Edit Trust Policy
+- Configure as follows
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "ARN_OF_YOUR_CREATED_OIDC_PROVIDER_FROM_STEP_ONE"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                },
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:GITHUB_ACCOUNT_NAME/GITHUB_ACOUNT_REPO:*"
+                }
+            }
+        }
+    ]
+}
+```
+
+## Sample dockerized node app
 
 Test app locally
 ```js
