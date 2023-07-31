@@ -5,6 +5,7 @@ Quick example on how you can push a docker image from a github repo into your ow
  - Sample Node app
  - Sample AWS Ecr push workflow
 
+
 # Prerequisites
 
 Setup the following resources before continuing
@@ -106,7 +107,32 @@ Once your role is created, navigate back to IAM within the AWS console and find 
 }
 ```
 
-## Sample dockerized node app
+## Github repository variables
+
+The following repository variables are required in order for the workflow to function correctly.
+
+- AWS_ECR_ROLE
+- AWS_ECR_REGISTRY
+- AWS_REGION
+
+Within GitHub, select your repository and navigate to settings, navigate to secrets and variables on the left hand navigation bar then choose actions.
+
+Under the Actions secrets and variables section choose the variables tab and select New Repository Variable.
+
+- Enter AWS_ECR_ROLE as the variable name 
+- Enter the ARN of the Role you created previously eg. arn:aws:iam::YOUR_AWS_ACCOUNT_NUMBER:role/YOUR_ROLE_NAME
+
+Create another repository variables with the following
+
+- Enter AWS_ECR_REGISTRY as the variable name
+- Enter the URI of the ECR repository you created previously eg. YOUR_AWS_ACCOUNT_NUMBER.dkr.ecr.eu-west-1.amazonaws.com/YOUR_ECR_REPOSITORY_NAME
+
+Create another repository variable with the following
+
+- Enter AWS_REGION as the variable name
+- Enter your aws region eg. eu-west-1
+
+# Sample dockerized node app
 
 Test app locally
 ```js
