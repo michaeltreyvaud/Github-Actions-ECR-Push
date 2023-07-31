@@ -9,12 +9,9 @@ permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
 jobs:
-  Push-Docker-Image-To-ECR: # TODO - Change name
+  Push-Docker-Image-To-ECR:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Envs  # TODO - remove
-        run: echo "My envars are ${{ env.AWS_ECR_ROLE }} ${{ env.AWS_ECR_REGISTRY }}"
-
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -22,7 +19,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ env.AWS_ECR_ROLE }}
-          role-session-name: testsession # TODO - clean up?
+          role-session-name: ECRPushSession
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
