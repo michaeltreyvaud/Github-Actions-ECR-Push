@@ -41,6 +41,9 @@ Click [here](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-west-
             "Sid": "AllowPush",
             "Effect": "Allow",
             "Action": [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
                 "ecr:PutImage",
                 "ecr:InitiateLayerUpload",
                 "ecr:UploadLayerPart",
