@@ -55,9 +55,7 @@ Click [here](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-west-
             "Action": [
                 "ecr:GetAuthorizationToken"
             ],
-            "Resource": [
-                "*"
-            ]
+            "Resource": "*"
         }
     ]
 }
