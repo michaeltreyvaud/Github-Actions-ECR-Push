@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Template for GitHub actions ECR push resources
+
+Parameters:
+  ECRRepositoryName: { Type: String }
+  GitHubOrganization: { Type: String }
+  GitHubRepository: { Type: String }
+  GitHubRepositoryBranch: { Type: String }
+
+Resources:
+  # ECR Repository to push images to
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      ImageTagMutability: IMMUTABLE
+      RepositoryName: !Sub "${ECRRepositoryName}"
+
+  # OIDC Provider that allows GitHub to authenticate for our AWS account
+  GitHubOIDCProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      ClientIdList:
+        - sts.amazonaws.com
+      ThumbprintList:
+        - 1c58a3a8518e8759bf075b76b750d4f2df264fcd
+      Url: https://token.actions.githubusercontent.com
+
+  # Role github actions can assume to push to ECR
+  ECRPushRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Federated: !GetAtt GitHubOIDCProvider.Arn
+          Action: sts:AssumeRoleWithWebIdentity
+          Condition:
+            StringEquals:
+              token.actions.githubusercontent.com:aud: sts.amazonaws.com
+            StringLike:
+              token.actions.githubusercontent.com:sub: !Sub "repo:${GitHubOrganization}/${GitHubRepository}:ref:refs/heads/${GitHubRepositoryBranch}"
+      RoleName: github-actions-ecr-role
+
+  # Policy that allows ECR Push
+  ECRPushPolicy:
+    DependsOn: [ECRPushRole]
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: github-actions-ecr-policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Sid: AllowPushPull
+          Effect: Allow
+          Action:
+          - ecr:GetDownloadUrlForLayer
+          - ecr:BatchGetImage
+          - ecr:BatchCheckLayerAvailability
+          - ecr:PutImage
+          - ecr:InitiateLayerUpload
+          - ecr:UploadLayerPart
+          - ecr:CompleteLayerUpload
+          Resource:
+          - !GetAtt ECRRepository.Arn
+        - Effect: Allow
+          Action:
+          - ecr:GetAuthorizationToken
+          Resource: "*"
+      Roles: [!Ref ECRPushRole]
